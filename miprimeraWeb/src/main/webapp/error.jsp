@@ -1,6 +1,6 @@
 <%-- 
-    Document   : miprimerJSP
-    Created on : 24-sep-2018, 9:42:49
+    Document   : error
+    Created on : 25-sep-2018, 8:48:27
     Author     : oscar
 --%>
 
@@ -13,16 +13,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h2>
-
-
-            <c:out value="${param.k}" />
-
-
-        </h2>
-        <c:if test="${param.red != null}" >
-            <h1 style="color: red"><c:out value="${param.red}" /></h1>
-        </c:if>
-
+        <h1><c:out value="${mensaje}"/></h1>
     </body>
 </html>

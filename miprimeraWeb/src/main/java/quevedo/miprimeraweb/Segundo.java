@@ -37,9 +37,17 @@ public class Segundo extends HttpServlet {
 
         
         
-        request.getRequestDispatcher("/miprimerJSP.jsp")
+        if (request.getParameter("hhh") != null)
+        {
+            request.getRequestDispatcher("/miprimerJSP.jsp")
                 .forward(request, response);
-
+        }
+        else
+        {
+            request.setAttribute("mensaje", "numero de parametros incorrecto");
+            request.getRequestDispatcher("/error.jsp")
+                .forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
