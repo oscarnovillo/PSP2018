@@ -17,9 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author oscar
  */
-@WebServlet(name = "Segundo",
-        urlPatterns = {"/kiko"})
-public class Segundo extends HttpServlet {
+@WebServlet(name = "Login", urlPatterns = {"/login"})
+public class Login extends HttpServlet {
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,26 +29,22 @@ public class Segundo extends HttpServlet {
    * @throws ServletException if a servlet-specific error occurs
    * @throws IOException if an I/O error occurs
    */
-  protected void processRequest(
-          HttpServletRequest request,
-          HttpServletResponse response)
+  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-
-    if (request.getSession().getAttribute("login") != null) {
-      if (request.getParameter("hhh") != null) {
-        request.getRequestDispatcher("/miprimerJSP.jsp")
-                .forward(request, response);
-      } else {
-        request.setAttribute("mensaje", "numeroasdasd de parametros incorrecto");
-        request.getRequestDispatcher("/error.jsp")
-                .forward(request, response);
-      }
-    } else {
-      request.setAttribute("mensaje", "login incorrecto");
-      request.getRequestDispatcher("/error.jsp")
-              .forward(request, response);
+    response.setContentType("text/html;charset=UTF-8");
+    try (PrintWriter out = response.getWriter()) {
+      /* TODO output your page here. You may use following sample code. */
+      out.println("<!DOCTYPE html>");
+      out.println("<html>");
+      out.println("<head>");
+      out.println("<title>Servlet Login</title>");      
+      out.println("</head>");
+      out.println("<body>");
+      out.println("<h1>LOGIN OK</h1>");
+      out.println("</body>");
+      out.println("</html>");
+      request.getSession().setAttribute("login","OK");
     }
-
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
