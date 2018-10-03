@@ -31,20 +31,14 @@ public class Login extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
-    try (PrintWriter out = response.getWriter()) {
-      /* TODO output your page here. You may use following sample code. */
-      out.println("<!DOCTYPE html>");
-      out.println("<html>");
-      out.println("<head>");
-      out.println("<title>Servlet Login</title>");      
-      out.println("</head>");
-      out.println("<body>");
-      out.println("<h1>LOGIN OK</h1>");
-      out.println("</body>");
-      out.println("</html>");
-      request.getSession().setAttribute("login","OK");
+
+    String pass = request.getParameter("pass");
+    if (pass.equals("kkk")) {
+      request.getSession().setAttribute("cajaFuerte1", "OK");
+    } else {
+      request.getSession().setAttribute("cajaFuerte1", "OK");
     }
+
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

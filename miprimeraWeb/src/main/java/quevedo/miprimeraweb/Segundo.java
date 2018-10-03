@@ -35,7 +35,9 @@ public class Segundo extends HttpServlet {
           HttpServletResponse response)
           throws ServletException, IOException {
 
-    if (request.getSession().getAttribute("login") != null) {
+    if ("2".equals(request.getSession()
+                    .getAttribute("login"))) 
+    {
       if (request.getParameter("hhh") != null) {
         request.getRequestDispatcher("/miprimerJSP.jsp")
                 .forward(request, response);
