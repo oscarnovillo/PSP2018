@@ -35,7 +35,7 @@ public class Segundo extends HttpServlet {
           HttpServletResponse response)
           throws ServletException, IOException {
 
-    if ("2".equals(request.getSession()
+    if (!"".equals(request.getSession()
                     .getAttribute("login"))) 
     {
       if (request.getParameter("hhh") != null) {

@@ -18,8 +18,8 @@ import utils.Constantes;
  *
  * @author oscar
  */
-@WebServlet(name = "Login", urlPatterns = {"/login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "Logout", urlPatterns = {"/secure/logout"})
+public class Logout extends HttpServlet {
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,14 +32,7 @@ public class Login extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-
-    String pass = request.getParameter("pass");
-    if (pass.equals("kkk")) {
-      request.getSession().setAttribute(Constantes.SESSION_LOGIN, "OK");
-    } else {
-      request.getSession().setAttribute(Constantes.SESSION_LOGIN, "OK");
-    }
-    
+   request.getSession().setAttribute(Constantes.SESSION_LOGIN, null);
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
