@@ -39,6 +39,7 @@ public class Recetas extends HttpServlet {
             + "\n"
             + "se llama a tu madre para que la haga.";
     String recetaColaCao = "Cola cao";
+    
     String recetaDevolver = recetaColaCao;
     if ("tortilla".equals(request.getParameter("receta"))) {
       recetaDevolver = recetaTortilla;
@@ -46,6 +47,7 @@ public class Recetas extends HttpServlet {
 
     
     request.setAttribute("receta", recetaDevolver);
+    
     
   }
 

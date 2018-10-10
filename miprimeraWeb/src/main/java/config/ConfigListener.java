@@ -15,14 +15,13 @@ import javax.servlet.ServletContextListener;
  */
 public class ConfigListener implements ServletContextListener {
 
-   @Override
-    public void contextInitialized(ServletContextEvent sce) {
-      ConfigurationYaml.getInstance(sce.getServletContext().getResourceAsStream("/WEB-INF/config.yml"));
-    }
+  @Override
+  public void contextInitialized(ServletContextEvent sce) {
+    ConfigurationYaml.getInstance(sce.getServletContext()
+            .getResourceAsStream("/WEB-INF/config/configYaml.yml"));
+   }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-       //((HikariDataSource)DBConnection.getInstance().getDataSource()).close();
-        
-    }
+  @Override
+  public void contextDestroyed(ServletContextEvent sce) {
+ }
 }

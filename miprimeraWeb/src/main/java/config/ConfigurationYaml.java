@@ -5,12 +5,7 @@
  */
 package config;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -24,6 +19,11 @@ public class ConfigurationYaml {
 
   private ConfigurationYaml() {
 
+  }
+
+  public static ConfigurationYaml getInstance() {
+
+    return config;
   }
 
   public static ConfigurationYaml getInstance(InputStream file) {
@@ -47,7 +47,6 @@ public class ConfigurationYaml {
   public void setPass(String pass) {
     this.pass = pass;
   }
-  
 
   public String getUser() {
     return user;

@@ -5,6 +5,7 @@
  */
 package quevedo.miprimeraweb;
 
+import config.ConfigurationYaml;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -34,7 +35,7 @@ public class Login extends HttpServlet {
           throws ServletException, IOException {
 
     String pass = request.getParameter("pass");
-    if (pass.equals("kkk")) {
+    if (pass.equals(ConfigurationYaml.getInstance().getPass())) {
       request.getSession().setAttribute(Constantes.SESSION_LOGIN, "OK");
     } else {
       request.getSession().setAttribute(Constantes.SESSION_LOGIN, "OK");
