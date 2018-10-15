@@ -6,6 +6,7 @@
 package config;
 
 import java.io.InputStream;
+import java.util.List;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -39,6 +40,16 @@ public class ConfigurationYaml {
 
   private String user;
   private String pass;
+
+  public List<String> getCasas() {
+    return casas;
+  }
+
+  public void setCasas(List<String> casas) {
+    this.casas = casas;
+  }
+  private List<String> casas;
+  
 
   public String getPass() {
     return pass;

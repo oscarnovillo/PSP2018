@@ -39,27 +39,12 @@ public class FiltroRecetas implements Filter {
     if (debug) {
       log("FiltroRecetas:DoBeforeProcessing");
     }
-
-    // Write code here to process the request and/or response before
-    // the rest of the filter chain is invoked.
-    // For example, a logging filter might log items on the request object,
-    // such as the parameters.
-    /*
-	for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    String values[] = request.getParameterValues(name);
-	    int n = values.length;
-	    StringBuffer buf = new StringBuffer();
-	    buf.append(name);
-	    buf.append("=");
-	    for(int i=0; i < n; i++) {
-	        buf.append(values[i]);
-	        if (i < n-1)
-	            buf.append(",");
-	    }
-	    log(buf.toString());
-	}
-     */
+    // comprueba parametros
+    String receta = request.getParameter("receta");
+    // hago lo que sea con el parametro.
+    request.setAttribute(receta, "tortilla");
+           
+    
   }  
   
   private void doAfterProcessing(ServletRequest request, ServletResponse response)
