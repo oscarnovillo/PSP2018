@@ -38,15 +38,21 @@ public class YamlTest extends HttpServlet {
       out.println("<!DOCTYPE html>");
       out.println("<html>");
       out.println("<head>");
-      out.println("<title>Servlet YamlTest</title>");      
+      out.println("<title>Servlet YamlTest</title>");
       out.println("</head>");
       out.println("<body>");
-      
-      for (String casa: ConfigurationYaml.getInstance().getCasas())
-      {
-         out.println(casa +"<br>");
+
+      for (String casa : 
+              ConfigurationYaml.getInstance().getCasas()) {
+        out.println(casa + "<br>");
       }
-      
+
+      out.println(
+              ConfigurationYaml.getInstance()
+                      .getRecetas().get("tortilla") + "<br>");
+      out.println(
+              ConfigurationYaml.getInstance()
+                      .getRecetas().get("risotto") + "<br>");
       out.println("</body>");
       out.println("</html>");
     }

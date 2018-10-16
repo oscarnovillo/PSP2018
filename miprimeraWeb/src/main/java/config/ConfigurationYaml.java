@@ -7,6 +7,7 @@ package config;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -41,6 +42,9 @@ public class ConfigurationYaml {
   private String user;
   private String pass;
 
+  private List<String> casas;
+  private Map<String, String> recetas;
+
   public List<String> getCasas() {
     return casas;
   }
@@ -48,8 +52,14 @@ public class ConfigurationYaml {
   public void setCasas(List<String> casas) {
     this.casas = casas;
   }
-  private List<String> casas;
-  
+
+  public Map<String, String> getRecetas() {
+    return recetas;
+  }
+
+  public void setRecetas(Map<String, String> recetas) {
+    this.recetas = recetas;
+  }
 
   public String getPass() {
     return pass;
