@@ -16,10 +16,10 @@ import quevedo.apiclient.GoogleHttpConsumingApi;
 public class Main {
   
   public static void main(String[] args) throws IOException {
-    GoogleHttpConsumerFootball foot = new GoogleHttpConsumerFootball();
-    foot.processRequest();
-//    GoogleHttpConsumingApi api = new GoogleHttpConsumingApi();
-//    api.processRequest();
+//    GoogleHttpConsumerFootball foot = new GoogleHttpConsumerFootball();
+//    foot.processRequest();
+    GoogleHttpConsumingApi api = new GoogleHttpConsumingApi();
+    api.processRequest();
             
     
   }

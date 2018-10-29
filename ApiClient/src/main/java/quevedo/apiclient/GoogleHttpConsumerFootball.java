@@ -62,18 +62,40 @@ public class GoogleHttpConsumerFootball  {
         //url = new GenericUrl("http://api.football-data.org/v1/teams/78");
 
         HttpRequest requestGoogle = requestFactory.buildGetRequest(url);
-        requestGoogle.getHeaders().set("X-Auth-Token", "2deee83e549c4a6e9709871d0fd58a0a");
+        requestGoogle.getHeaders().set("X-Auth-Token", 
+                "2deee83e549c4a6e9709871d0fd58a0a");
         
 
         //response.getWriter().print(requestGoogle.execute().parseAsString());
-        Type type = new TypeToken<GenericJson>() {}.getType();
+        
         
        System.out.println(requestGoogle.execute().parseAsString());
         //response.getWriter().print("<br>");
-       GenericJson json = (GenericJson) requestGoogle.execute().parseAs(type);
+       
+        Type type = new TypeToken<GenericJson>() {}.getType();
+        GenericJson json = (GenericJson) requestGoogle.execute().parseAs(type);
 
         System.out.println(json.toPrettyString());
+        url = new GenericUrl("http://api.football-data.org/v2/players/112");
+        url.set("plan", "TIER_ONE");
+        //url = new GenericUrl("http://api.football-data.org/v1/teams/78");
 
+        
+         requestGoogle = requestFactory.buildGetRequest(url);
+        requestGoogle.getHeaders().set("X-Auth-Token", 
+                "2deee83e549c4a6e9709871d0fd58a0a");
+        
+
+        //response.getWriter().print(requestGoogle.execute().parseAsString());
+        
+        
+       System.out.println(requestGoogle.execute().parseAsString());
+        //response.getWriter().print("<br>");
+       
+         type = new TypeToken<GenericJson>() {}.getType();
+         json = (GenericJson) requestGoogle.execute().parseAs(type);
+
+        System.out.println(json.get("firstName"));
         //response.getWriter().print("</body></html>");
     }
 
