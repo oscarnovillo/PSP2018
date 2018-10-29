@@ -7,12 +7,14 @@ package config;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 /**
  * Web application lifecycle listener.
  *
  * @author oscar
  */
+@WebListener
 public class ConfigListener implements ServletContextListener {
 
   @Override

@@ -10,21 +10,16 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.UrlEncodedContent;
+import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.ArrayMap;
-import com.google.api.client.util.GenericData;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 
 
@@ -46,7 +41,7 @@ public class GoogleHttpConsumerFootball  {
      */
     public void processRequest()
       throws  IOException {
-        HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+        HttpTransport HTTP_TRANSPORT = new ApacheHttpTransport();
         JsonFactory JSON_FACTORY = new JacksonFactory();
         HttpRequestFactory requestFactory
           = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
@@ -59,7 +54,8 @@ public class GoogleHttpConsumerFootball  {
 
         GenericUrl url = new GenericUrl("http://api.football-data.org/v2/competitions");
         url.set("plan", "TIER_ONE");
-        //url = new GenericUrl("http://api.football-data.org/v1/teams/78");
+       
+
 
         HttpRequest requestGoogle = requestFactory.buildGetRequest(url);
         requestGoogle.getHeaders().set("X-Auth-Token", 
