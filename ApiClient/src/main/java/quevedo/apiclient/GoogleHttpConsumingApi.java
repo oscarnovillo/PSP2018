@@ -63,12 +63,12 @@ public class GoogleHttpConsumingApi  {
         
 
         HttpRequest requestGoogle = requestFactory.buildPostRequest(url, new UrlEncodedContent(data));
-        //requestGoogle.getHeaders().set("X-Auth-Token", "2deee83e549c4a6e9709871d0fd58a0a");
+
         url.set("idClient", "WEB.SERV.oscar.novillo@iesquevedo.es");
         url.set("passKey", "4C7A2AC7-2AC4-4AAE-9E63-E27EEA72969E");
         url.set("idStop", "3727");
 
-        //url = new GenericUrl("http://api.football-data.org/v1/teams/745/players");
+
         Arrives arr = requestGoogle.execute().parseAs(Arrives.class);
         GenericJson json = requestGoogle.execute().parseAs(GenericJson.class);
         System.out.println(arr.getArrives().size());
