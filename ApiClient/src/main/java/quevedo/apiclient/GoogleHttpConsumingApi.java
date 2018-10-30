@@ -64,9 +64,9 @@ public class GoogleHttpConsumingApi  {
 
         HttpRequest requestGoogle = requestFactory.buildPostRequest(url, new UrlEncodedContent(data));
 
-        url.set("idClient", "WEB.SERV.oscar.novillo@iesquevedo.es");
-        url.set("passKey", "4C7A2AC7-2AC4-4AAE-9E63-E27EEA72969E");
-        url.set("idStop", "3727");
+//        url.set("idClient", "WEB.SERV.oscar.novillo@iesquevedo.es");
+//        url.set("passKey", "4C7A2AC7-2AC4-4AAE-9E63-E27EEA72969E");
+//        url.set("idStop", "2050");
 
 
         Arrives arr = requestGoogle.execute().parseAs(Arrives.class);
