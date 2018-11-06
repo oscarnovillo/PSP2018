@@ -1,3 +1,5 @@
 ## YAML Template.
 ---
-items : /WEB-INF/data/items.txt
+fileItems : /WEB-INF/data/items.txt
+filePurchases: /WEB-INF/data/purchases.txt
+fileCustomers: /WEB-INF/data/customers.xml

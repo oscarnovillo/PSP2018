@@ -5,12 +5,15 @@
  */
 package model;
 
+import com.google.api.client.util.Key;
+
 /**
  *
  * @author Laura
  */
 public class Item {
 
+    @Key
     private int idItem;
     private String name;
     private String company;

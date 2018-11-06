@@ -7,6 +7,7 @@ package dao;
 
 
 
+import config.ConfigurationYaml;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -28,35 +29,30 @@ public class ItemsDao {
     public List<Item> getItems() {
         
         ArrayList<Item> itemArray = new ArrayList();
-        Item item = new Item(1, "t", "M&M",100);
-        itemArray.add(item);
-        item = new Item(2, "t", "M&M",100);
-        itemArray.add(item);
-        item = new Item(3, "t", "M&M",100);
-        itemArray.add(item);
-//        Path file = Paths.get("/WEB-INF/data/items.txt");
-//        Charset charset = Charset.forName("UTF-8");
-//        BufferedReader reader = null;
-//
-//        try {
-//            reader = Files.newBufferedReader(file, charset);
-//            String line = null;
-//            while ((line = reader.readLine()) != null) {
-//                String[] lineDivided = line.split(";");
-//                itemArray.add(new Item(Integer.parseInt(lineDivided[0]), lineDivided[1], lineDivided[2], Double.parseDouble(lineDivided[3])));
-//
-//            }
-//        } catch (IOException x) {
-//            System.err.format("IOException: %s%n", x);
-//        } finally {
-//            if (reader != null) {
-//                try {
-//                    reader.close();
-//                } catch (IOException ex) {
-//                    Logger.getLogger(ItemsDao.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        }
+
+        Path file = Paths.get(ConfigurationYaml.getInstance().getContexto().getRealPath(ConfigurationYaml.getInstance().getFileItems()));
+        Charset charset = Charset.forName("UTF-8");
+        BufferedReader reader = null;
+
+        try {
+            reader = Files.newBufferedReader(file, charset);
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                String[] lineDivided = line.split(";");
+                itemArray.add(new Item(Integer.parseInt(lineDivided[0]), lineDivided[1], lineDivided[2], Double.parseDouble(lineDivided[3])));
+
+            }
+        } catch (IOException x) {
+            System.err.format("IOException: %s%n", x);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ItemsDao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
         return itemArray;
     }
 

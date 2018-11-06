@@ -5,6 +5,8 @@
  */
 package dao;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,16 +49,19 @@ public class ItemsDao {
                 }
               });
 
-      GenericUrl url = new GenericUrl("http://localhost:8084/ServidorApiItemShop/articulos");
+      GenericUrl url = new GenericUrl("http://localhost:8080/ServidorApiItemShop/articulos");
       
 
       HttpRequest requestGoogle = requestFactory.buildGetRequest(url);
 
       Type type = new TypeToken<List<Item>>() {
       }.getType();
-      
       itemArray  = (ArrayList) requestGoogle.execute().parseAs(type);
-
+      
+      String json = requestGoogle.execute().parseAsString();
+      
+      ObjectMapper mapper = new ObjectMapper();
+      itemArray =   mapper.readValue(json,  new TypeReference<List<Item>>() { });
       
     } catch (IOException ex) {
       Logger.getLogger(ItemsDao.class.getName()).log(Level.SEVERE, null, ex);
