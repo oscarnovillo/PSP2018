@@ -49,7 +49,8 @@ public class ItemsDao {
                 }
               });
 
-      GenericUrl url = new GenericUrl("http://localhost:8080/ServidorApiItemShop/articulos");
+      GenericUrl url = new GenericUrl(
+              "http://localhost:8084/ServidorApiItemShop/articulos");
       
 
       HttpRequest requestGoogle = requestFactory.buildGetRequest(url);
@@ -61,7 +62,9 @@ public class ItemsDao {
       String json = requestGoogle.execute().parseAsString();
       
       ObjectMapper mapper = new ObjectMapper();
-      itemArray =   mapper.readValue(json,  new TypeReference<List<Item>>() { });
+      
+      itemArray =   mapper.readValue(json, 
+              new TypeReference<List<Item>>() { });
       
     } catch (IOException ex) {
       Logger.getLogger(ItemsDao.class.getName()).log(Level.SEVERE, null, ex);

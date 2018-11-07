@@ -30,7 +30,10 @@ public class ItemsDao {
         
         ArrayList<Item> itemArray = new ArrayList();
 
-        Path file = Paths.get(ConfigurationYaml.getInstance().getContexto().getRealPath(ConfigurationYaml.getInstance().getFileItems()));
+        Path file = Paths.get(
+                ConfigurationYaml.getInstance().
+                        getContexto()
+                        .getRealPath(ConfigurationYaml.getInstance().getFileItems()));
         Charset charset = Charset.forName("UTF-8");
         BufferedReader reader = null;
 
