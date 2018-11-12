@@ -5,13 +5,19 @@
  */
 package servlets;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Customer;
+import model.Item;
+import services.CustomersServices;
 
 /**
  *
@@ -32,17 +38,33 @@ public class Clientes extends HttpServlet {
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     String op = request.getParameter("op");
-    switch (op)
-    {
+    switch (op) {
       case "LIST":
-        
+
         break;
       case "SAVE":
+        String clienteJson = request.getParameter("cliente");
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Customer cliente = mapper.readValue(clienteJson,
+                new TypeReference<Customer>() {
+        });
+        CustomersServices cs = new CustomersServices();
+        if (cs.addCustomer(cliente) != null)
+        {
+          mapper.writeValue(
+                  response.getOutputStream()
+                  , cliente);
+        }
+        else
+        {
+          response.setStatus(500);
+          response.getWriter().print("ERROR");
+        }
         
         break;
-    
-    
-    
+
     }
   }
 

@@ -15,6 +15,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.json.GenericJson;
@@ -34,7 +35,7 @@ import java.util.List;
 public class ItemsDao {
 
   public ArrayList<Item> getItems() {
-    
+
     ArrayList<Item> itemArray = new ArrayList();
     try {
 
@@ -51,21 +52,28 @@ public class ItemsDao {
 
       GenericUrl url = new GenericUrl(
               "http://localhost:8084/ServidorApiItemShop/articulos");
-      
 
       HttpRequest requestGoogle = requestFactory.buildGetRequest(url);
 
       Type type = new TypeToken<List<Item>>() {
       }.getType();
-      itemArray  = (ArrayList) requestGoogle.execute().parseAs(type);
-      
-      String json = requestGoogle.execute().parseAsString();
-      
-      ObjectMapper mapper = new ObjectMapper();
-      
-      itemArray =   mapper.readValue(json, 
-              new TypeReference<List<Item>>() { });
-      
+      itemArray = (ArrayList) requestGoogle.execute().parseAs(type);
+
+      HttpResponse response = requestGoogle.execute();
+      String json = response.parseAsString();
+
+      if (response.getStatusCode() != 500) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        itemArray = mapper.readValue(json,
+                new TypeReference<List<Item>>() {
+        });
+      }
+      else
+      {
+        return null;
+      }
+
     } catch (IOException ex) {
       Logger.getLogger(ItemsDao.class.getName()).log(Level.SEVERE, null, ex);
     }
