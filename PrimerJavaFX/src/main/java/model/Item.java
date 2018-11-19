@@ -17,7 +17,6 @@ import java.util.Date;
  */
 public class Item {
 
-    @Key
     private int idItem;
     private String name;
     private String company;

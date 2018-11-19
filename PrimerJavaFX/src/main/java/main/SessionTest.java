@@ -3,14 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package main;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Item;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
@@ -18,25 +14,26 @@ import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.apache.ApacheHttpTransport;
-import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.gson.reflect.TypeToken;
+import dao.ItemsDao;
 import java.io.IOException;
-
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Item;
 
 /**
  *
- * @author Laura
+ * @author oscar
  */
-public class ItemsDao {
-
-  public ArrayList<Item> getItems() {
-
-    ArrayList<Item> itemArray = new ArrayList();
+public class SessionTest {
+  
+  public static void main(String[] args) {
     try {
 
       HttpTransport HTTP_TRANSPORT = new ApacheHttpTransport();
@@ -51,33 +48,38 @@ public class ItemsDao {
               });
 
       GenericUrl url = new GenericUrl(
-              "http://localhost:8084/ServidorApiItemShop/articulos");
+              "http://localhost:8084/ServidorApiItemShop/session");
 
       HttpRequest requestGoogle = requestFactory.buildGetRequest(url);
-
-      Type type = new TypeToken<List<Item>>() {
-      }.getType();
-      itemArray = (ArrayList) requestGoogle.execute().parseAs(type);
-
       HttpResponse response = requestGoogle.execute();
-      String json = response.parseAsString();
+       System.out.println(requestGoogle.getResponseHeaders().getCookie());
 
-      if (response.getStatusCode() != 500) {
-        ObjectMapper mapper = new ObjectMapper();
+      System.out.println(requestGoogle.execute().parseAsString());
+       System.out.println(response.getHeaders().getCookie());
+        System.out.println(requestGoogle.getResponseHeaders().getCookie());
+      response = requestGoogle.execute();
+       System.out.println(response.getHeaders().getCookie());
+      System.out.println(response.parseAsString());
+      requestFactory
+              = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
+                @Override
+                public void initialize(HttpRequest request) {
+                  request.setParser(new JsonObjectParser(JSON_FACTORY));
 
-        itemArray = mapper.readValue(json,
-                new TypeReference<List<Item>>() {
-        });
-      }
-      else
-      {
-        return null;
-      }
+                }
+              });
+      requestGoogle = requestFactory.buildGetRequest(url);
+      response = requestGoogle.execute();
+      System.out.println(response.parseAsString());
+       System.out.println(response.getHeaders().getCookie());
+      response = requestGoogle.execute();
+      System.out.println(response.parseAsString());
+   
+      System.out.println(response.getHeaders().getCookie());
 
     } catch (IOException ex) {
       Logger.getLogger(ItemsDao.class.getName()).log(Level.SEVERE, null, ex);
     }
-    return itemArray;
   }
-
+  
 }
