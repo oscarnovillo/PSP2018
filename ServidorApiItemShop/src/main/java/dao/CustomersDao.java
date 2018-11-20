@@ -16,10 +16,21 @@ package dao;
 //import java.nio.file.Files;
 //import java.nio.file.Path;
 //import java.nio.file.Paths;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import config.ConfigurationYaml;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Customer;
+import model.Review;
+import model.converters.DateConverter;
 //import model.Review;
 //import model.converters.DateConverter;
 
@@ -70,33 +81,36 @@ public class CustomersDao {
     return customers;
   }
 
-  public boolean saveCustomers(ArrayList<Customer> customers) {
-//    Path file = Paths.get(ConfigProperties.getInstance().getProperty("customers"));
-//    Charset charset = Charset.forName("UTF-8");
-//
-//    XStream xs = new XStream(new DomDriver());
-//    XStream.setupDefaultSecurity(xs);
-//    xs.allowTypesByWildcard(new String[]{"model.*"});
-//
-//    xs.alias("customer", Customer.class);
-//    xs.alias("review", Review.class);
-//
-//    xs.aliasField("id", Customer.class, "idCustomer");
-//    xs.aliasField("item", Review.class, "itemId");
-//    xs.addImplicitCollection(Customer.class, "reviews");
-//
-//    xs.useAttributeFor(Customer.class, "idCustomer");
-//    xs.useAttributeFor(Review.class, "itemId");
-//
-//    xs.registerConverter(new DateConverter());
-//
-//    try {
-//      xs.toXML(customers, Files.newBufferedWriter(file, charset));
-//    } catch (IOException ex) {
-//      Logger.getLogger(CustomersDao.class.getName()).log(Level.SEVERE, null, ex);
-//
-//      return false;
-//    }
+  public boolean saveCustomers(List<Customer> customers) {
+    Path file = Paths.get(
+                ConfigurationYaml.getInstance().
+                        getContexto()
+                        .getRealPath(ConfigurationYaml.getInstance().getFileCustomers()));
+    Charset charset = Charset.forName("UTF-8");
+
+    XStream xs = new XStream(new DomDriver());
+    XStream.setupDefaultSecurity(xs);
+    xs.allowTypesByWildcard(new String[]{"model.*"});
+
+    xs.alias("customer", Customer.class);
+    xs.alias("review", Review.class);
+
+    xs.aliasField("id", Customer.class, "idCustomer");
+    xs.aliasField("item", Review.class, "itemId");
+    xs.addImplicitCollection(Customer.class, "reviews");
+
+    xs.useAttributeFor(Customer.class, "idCustomer");
+    xs.useAttributeFor(Review.class, "itemId");
+
+    xs.registerConverter(new DateConverter());
+
+    try {
+      xs.toXML(customers, Files.newBufferedWriter(file, charset));
+    } catch (IOException ex) {
+      Logger.getLogger(CustomersDao.class.getName()).log(Level.SEVERE, null, ex);
+
+      return false;
+    }
 
     return true;
   }

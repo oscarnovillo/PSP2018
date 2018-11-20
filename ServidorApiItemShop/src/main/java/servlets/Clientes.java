@@ -7,8 +7,10 @@ package servlets;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dao.CustomersDao;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,31 +39,41 @@ public class Clientes extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
+     List<Customer> customers = new LinkedList<>();
+        customers.add(new Customer(1,"n","p","a"));
+        customers.add(new Customer(1,"n","p","a"));
+        customers.add(new Customer(1,"n","p","a"));
+        customers.add(new Customer(1,"n","p","a"));
+        customers.add(new Customer(1,"n","p","a"));
+        CustomersDao dao = new CustomersDao();
+        dao.saveCustomers(customers);
     String op = request.getParameter("op");
+    op = "";
     switch (op) {
       case "LIST":
 
         break;
       case "SAVE":
-        String clienteJson = request.getParameter("cliente");
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        Customer cliente = mapper.readValue(clienteJson,
-                new TypeReference<Customer>() {
-        });
-        CustomersServices cs = new CustomersServices();
-        if (cs.addCustomer(cliente) != null)
-        {
-          mapper.writeValue(
-                  response.getOutputStream()
-                  , cliente);
-        }
-        else
-        {
-          response.setStatus(500);
-          response.getWriter().print("ERROR");
-        }
+        
+//        String clienteJson = request.getParameter("cliente");
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        Customer cliente = mapper.readValue(clienteJson,
+//                new TypeReference<Customer>() {
+//        });
+//        CustomersServices cs = new CustomersServices();
+//        if (cs.addCustomer(cliente) != null)
+//        {
+//          mapper.writeValue(
+//                  response.getOutputStream()
+//                  , cliente);
+//        }
+//        else
+//        {
+//          response.setStatus(500);
+//          response.getWriter().print("ERROR");
+//        }
         
         break;
 

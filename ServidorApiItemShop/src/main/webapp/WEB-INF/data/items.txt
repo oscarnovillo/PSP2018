@@ -2,4 +2,4 @@
 2;Laptop;ACER;420
 3;TV;Samsung;500
 4;Screen;Philips;10
-5;Smartphone;Xiaomi;174
+5;Smartphone;Xiaomi;10
