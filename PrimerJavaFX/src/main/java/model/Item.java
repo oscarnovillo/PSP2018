@@ -22,8 +22,8 @@ public class Item {
     private String company;
     private double price;
     
-    @JsonSerialize(converter = LocalDateTimeToStringConverter.class)
-    @JsonDeserialize(converter = StringToLocalDatetimeConverter.class)
+//    @JsonSerialize(converter = LocalDateTimeToStringConverter.class)
+//    @JsonDeserialize(converter = StringToLocalDatetimeConverter.class)
     private LocalDate fecha;
 
     public LocalDate getFecha() {
