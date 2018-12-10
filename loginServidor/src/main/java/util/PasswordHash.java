@@ -264,7 +264,7 @@ public class PasswordHash {
     return null;
 }
   
-  private static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException {
+  public  static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException {
     //Always use a SecureRandom generator
     SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
     //Create array for salt
