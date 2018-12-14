@@ -1,0 +1,29 @@
+## YAML Template.
+---
+## YAML Template.
+---
+#driverDB: org.hsqldb.jdbc.JDBCDriver
+#urlDB: jdbc:hsqldb:mem:instituto
+#userDB: estherrodriguez
+#passDB: 198788
+mailFrom: alumno1@iesquevedo.es
+smtpServer: smtp.gmail.com
+smtpPort: 587
+mailPass: alumnodam2
+##passDB: clasesdaw
+
+dbms: sqlserver
+
+driverDBmysql: com.mysql.cj.jdbc.Driver
+urlDBmysql: jdbc:mysql://db4free.net:3306/daw2_pruebas?serverTimeZone=UTC
+userDBmysqlsqlServer: oscarnovillo
+passDB: 1235b1a9
+
+driverDBsqlserver: com.mysql.cj.jdbc.Driver
+urlDB: jdbc:mysql://db4free.net:3306/daw2_pruebas?serverTimeZone=UTC
+userDB: oscarnovillo
+passDB: 1235b1a9
+#mailFrom: alumno1@iesquevedo.es
+#smtpServer: smtp.gmail.com
+#smtpPort: 587
+#mailPass: alumnodam2
