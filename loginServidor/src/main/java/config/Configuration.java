@@ -26,7 +26,16 @@ public class Configuration {
 
     }
 
+public static Configuration getInstance(InputStream file) {
+    if (config == null) {
+      Yaml yaml = new Yaml();
+      config = (Configuration) yaml.loadAs(
+              file,
+              Configuration.class);
 
+    }
+    return config;
+  }
 
     public static Configuration getInstance() {
         if (config == null) {
