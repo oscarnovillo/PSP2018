@@ -60,6 +60,7 @@ public class MandarMail {
         mailServerProperties = System.getProperties();
         mailServerProperties.put("mail.smtp.port", Integer.parseInt("587"));
         mailServerProperties.put("mail.smtp.auth", "true");
+        mailServerProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
         mailServerProperties.put("mail.smtp.starttls.enable", "true");
         
         // Step2
