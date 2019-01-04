@@ -1,0 +1,46 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dam.encriptacion;
+
+import static dam.encriptacion.PasswordHash.descifra;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+//import java.util.Base64;
+import org.apache.commons.codec.binary.Base64;
+
+/**
+ *
+ * @author oscar
+ */
+public class Main {
+
+    public static void main(String[] args) {
+        try {
+            String texto = "pepe no tiene quien le escriba, y quiero mnas mensaje";
+            byte[] cifrado = PasswordHash.cifra("juan",texto);
+            
+            System.out.println(
+                    new String(cifrado));
+
+            String base64encode = java.util.Base64.getEncoder().withoutPadding().encodeToString(cifrado);
+            System.out.println(base64encode);
+            System.out.println(Base64.encodeBase64String(cifrado));
+            
+
+            byte[] base64decode = Base64.decodeBase64(base64encode);
+            base64decode = java.util.Base64.getDecoder().decode(base64encode);
+            System.out.println(new String(base64decode));
+            
+            
+            System.out.println(descifra("juan",base64decode));
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+}
