@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<enunciate label="novaglobalapi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://enunciate.codehaus.org/schemas/enunciate-1.25.xsd">
+
+    <api-classes>
+        <include pattern="com.test.ws.rest.*"/>
+        <include pattern="com.test.ws.view.*"/>        
+    </api-classes>
+  
+    <!-- Disable all the client generation tools -->
+
+    <modules>
+        <docs splashPackage="myservice.service"
+            includeDefaultDownloads="false" 
+            disableRestMountpoint="true"
+            applyWsdlFilter="false"
+            title="Test Jersey "
+            copyright="Easylog " />
+        <basic-app disabled="true" />
+        <java-client disabled="false" />
+        <xml disabled="false" />
+        <jaxws-client disabled="true" />
+        <jboss disabled="false" />
+        <jaxws-ri disabled="true" />
+        <jaxws-support disabled="true" />
+        <csharp disabled="true" />
+        <jersey disabled="true" />
+        <c disabled="true" />
+        <obj-c disabled="true" />
+    </modules>
+    
+</enunciate>
