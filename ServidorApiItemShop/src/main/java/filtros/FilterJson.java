@@ -121,10 +121,10 @@ public class FilterJson implements Filter {
             }
             else
             {
-              request.setAttribute("empresa", empresa);
-                chain.doFilter(request, response);
+              
                 // llamada a api rest incorrecta
-                //((HttpServletResponse) response).setStatus(403);
+                ((HttpServletResponse) response).setStatus(403);
+                ((HttpServletResponse) response).getWriter().print("mi mensaje error");
             }
         } catch (Throwable t) {
             // If an exception is thrown somewhere down the filter chain,

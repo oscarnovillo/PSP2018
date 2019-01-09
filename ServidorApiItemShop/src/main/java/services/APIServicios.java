@@ -15,7 +15,7 @@ public class APIServicios {
         if ("KK".equals(API)) {
             return 1;
         } else {
-            return 1;
+            return -1;
     
         }
     }
