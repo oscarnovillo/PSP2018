@@ -5,7 +5,20 @@
  */
 package main;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.http.GenericUrl;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpRequestFactory;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.UrlEncodedContent;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.GenericJson;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonObjectParser;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import java.io.IOException;
+import model.Alumno;
 import quevedo.apiclient.GoogleHttpConsumerFootball;
 import quevedo.apiclient.GoogleHttpConsumingApi;
 
@@ -18,9 +31,35 @@ public class Main {
   public static void main(String[] args) throws IOException {
 //    GoogleHttpConsumerFootball foot = new GoogleHttpConsumerFootball();
 //    foot.processRequest();
-    GoogleHttpConsumingApi api = new GoogleHttpConsumingApi();
-    api.processRequest();
-            
+//    GoogleHttpConsumingApi api = new GoogleHttpConsumingApi();
+//    api.processRequest();
+    
+        HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+        JsonFactory JSON_FACTORY = new JacksonFactory();
+        HttpRequestFactory requestFactory
+          = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
+              @Override
+              public void initialize(HttpRequest request) {
+                  request.setParser(new JsonObjectParser(JSON_FACTORY));
+              }
+          });
+
+        GenericUrl url = 
+                new GenericUrl("http://localhost:8084/ServidorApiItemShop/rest/cutre");
+        
+        Alumno alumno = new Alumno();
+        ObjectMapper m = new ObjectMapper();
+        url.set("alumno",m.writeValueAsString(alumno));
+        
+        HttpRequest requestGoogle = 
+                requestFactory.buildPutRequest(url, null);
+        
+        Alumno a2 = requestGoogle.execute().parseAs(Alumno.class);
+        
+        System.out.println(a2.getNombre());
+        
+        
+    
     
   }
   

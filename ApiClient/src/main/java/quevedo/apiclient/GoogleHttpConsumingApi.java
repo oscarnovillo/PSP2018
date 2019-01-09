@@ -90,6 +90,7 @@ public class GoogleHttpConsumingApi  {
         data.put("direction", "PLAZA BEATA");
         url = new GenericUrl("https://openbus.emtmadrid.es:9443/emt-proxy-server/last/geo/GetStopsLine.php");
         requestGoogle = requestFactory.buildPostRequest(url, new UrlEncodedContent(data));
+        
         json = requestGoogle.execute().parseAs(GenericJson.class);
         
       ArrayList stops = (ArrayList) json.get("stop");
