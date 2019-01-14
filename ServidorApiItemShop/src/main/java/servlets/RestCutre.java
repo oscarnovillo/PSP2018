@@ -53,7 +53,7 @@ public class RestCutre extends HttpServlet {
         alumno = new Alumno();
         alumno.setNombre("KIKO");
         alumnos.add(alumno);
-        request.setAttribute("json", alumnos);
+        request.setAttribute("json", alumno);
     }
 
     @Override
