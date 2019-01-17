@@ -10,7 +10,7 @@ import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.apache.ApacheHttpTransport;
+
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.JsonFactory;
@@ -41,7 +41,7 @@ public class GoogleHttpConsumerFootball  {
      */
     public void processRequest()
       throws  IOException {
-        HttpTransport HTTP_TRANSPORT = new ApacheHttpTransport();
+        HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
         JsonFactory JSON_FACTORY = new JacksonFactory();
         HttpRequestFactory requestFactory
           = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
