@@ -20,6 +20,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import java.io.IOException;
+import java.util.List;
 import model.Alumno;
 import quevedo.apiclient.GoogleHttpConsumerFootball;
 import quevedo.apiclient.GoogleHttpConsumingApi;
@@ -52,9 +53,10 @@ public class Main {
     Alumno alumno = new Alumno();
     ObjectMapper m = new ObjectMapper();
     url.set("alumno", m.writeValueAsString(alumno));
-
+    
     HttpRequest requestGoogle
-            = requestFactory.buildPutRequest(url, null);
+            = requestFactory.buildGetRequest(url);
+    requestGoogle.getHeaders().set("API_KEY", "KhhhK");
     HttpResponse response = null;
     try {
        response = requestGoogle.execute();
