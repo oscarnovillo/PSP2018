@@ -64,8 +64,27 @@ public class MainJersey {
 //        return map.readValue(s, Alumno.class);
     }
 
+    
+     public static void testHello() throws IOException {
+//         ClientConfig config = new ClientConfig();
+//    config.register(JacksonJsonProvider.class);
+//        
+//        
+        Client client = ClientBuilder.newClient();
+        WebTarget webTarget
+                = client.target("http://localhost:8080/ServidorApiItemShop/jersey/hello/juan");
+        ObjectMapper mapper = new ObjectMapper();
+         String r = webTarget.queryParam("apellido","gonzalez")
+                .request(MediaType.TEXT_HTML)
+                .get(String.class);
+         System.out.println(r);
+//        ObjectMapper map = new ObjectMapper();
+//        return map.readValue(s, Alumno.class);
+    }
+    
     public static void main(String[] args) throws IOException {
-        System.out.println(getJsonEmployee(0).get(0).getNombre());
-        System.out.println(putAlumno().getNombre());
+        //System.out.println(getJsonEmployee(0).get(0).getNombre());
+        //System.out.println(putAlumno().getNombre());
+        testHello();
     }
 }

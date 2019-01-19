@@ -6,7 +6,7 @@
 package model;
 
 import com.google.api.client.util.Key;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Alumno {
     @Key
     private String nombre;
     @Key
-    private Date fecha_nacimiento;
+    private LocalDate fecha_nacimiento;
     private Boolean mayor_edad;
 
     public long getId() {
@@ -38,11 +38,11 @@ public class Alumno {
         this.nombre = nombre;
     }
 
-    public Date getFecha_nacimiento() {
+    public LocalDate getFecha_nacimiento() {
         return fecha_nacimiento;
     }
 
-    public void setFecha_nacimiento(Date fecha_nacimiento) {
+    public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
 
