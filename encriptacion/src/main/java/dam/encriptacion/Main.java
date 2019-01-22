@@ -5,7 +5,7 @@
  */
 package dam.encriptacion;
 
-import static dam.encriptacion.PasswordHash.descifra;
+
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +20,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            String texto = "pepe no tiene quien le escriba, y quiero mnas mensaje";
+            String texto = "pepe no tiene quien le eññññscriba, y quiero mnas mensaje";
             byte[] cifrado = PasswordHash.cifra("juan",texto);
             
             System.out.println(
@@ -36,7 +36,7 @@ public class Main {
             System.out.println(new String(base64decode));
             
             
-            System.out.println(descifra("juan",base64decode));
+            System.out.println(PasswordHash.descifra("juan",base64decode));
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
