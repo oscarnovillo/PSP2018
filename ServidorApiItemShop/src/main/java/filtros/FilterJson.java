@@ -7,6 +7,8 @@ package filtros;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -49,6 +51,7 @@ public class FilterJson implements Filter {
             log("FilterJson:DoBeforeProcessing");
         }
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         ((HttpServletRequest) request).getMethod();
         
         String alumno = request.getParameter("alumno");
@@ -68,6 +71,7 @@ public class FilterJson implements Filter {
         }
         
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         Object json = request.getAttribute("json");
         if (json != null) {
             mapper.writeValue(response.getOutputStream(), json);

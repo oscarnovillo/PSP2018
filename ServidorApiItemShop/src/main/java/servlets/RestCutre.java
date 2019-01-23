@@ -7,11 +7,14 @@ package servlets;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.api.client.json.GenericJson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -53,6 +56,7 @@ public class RestCutre extends HttpServlet {
         alumno = new Alumno();
         alumno.setNombre("KIKO");
         alumnos.add(alumno);
+        alumno.setFecha_nacimiento(LocalDateTime.now());
         request.setAttribute("json", alumno);
     }
 
@@ -79,6 +83,7 @@ public class RestCutre extends HttpServlet {
         Scanner scanner = new Scanner(req.getInputStream(), "UTF-8");
         String body = scanner.hasNext() ? scanner.useDelimiter("\\A").next() : "";
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         Alumno a2 = mapper.readValue(body,
               new TypeReference<Alumno>() {
             });

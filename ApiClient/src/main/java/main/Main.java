@@ -5,7 +5,9 @@
  */
 package main;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
@@ -18,6 +20,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.GenericJson;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import java.io.IOException;
 import java.util.List;
@@ -39,6 +42,8 @@ public class Main {
 
     HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     JsonFactory JSON_FACTORY = new JacksonFactory();
+    
+   
     HttpRequestFactory requestFactory
             = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
               @Override
@@ -48,7 +53,7 @@ public class Main {
             });
 
     GenericUrl url
-            = new GenericUrl("http://localhost:8084/ServidorApiItemShop/rest/cutre");
+            = new GenericUrl("http://localhost:8080/ServidorApiItemShop/rest/cutre");
 
     Alumno alumno = new Alumno();
     ObjectMapper m = new ObjectMapper();
@@ -56,12 +61,21 @@ public class Main {
     
     HttpRequest requestGoogle
             = requestFactory.buildGetRequest(url);
-    requestGoogle.getHeaders().set("API_KEY", "KhhhK");
+    requestGoogle.getHeaders().set("API_KEY", "KK");
     HttpResponse response = null;
     try {
        response = requestGoogle.execute();
-      Alumno a2 = response.parseAs(Alumno.class);
-      System.out.println(a2.getNombre());
+       String s = response.parseAsString();
+       ObjectMapper obj = new ObjectMapper();
+       obj.registerModule(new JavaTimeModule());
+       Alumno a2 = obj.readValue(s, new TypeReference<Alumno>() {
+            });
+       
+      System.out.println(a2.getFecha_nacimiento());
+      response = requestGoogle.execute();
+       a2 = response.parseAs(Alumno.class);
+      System.out.println(a2.getFecha_nacimiento());
+      
     } catch (HttpResponseException e) {
       System.out.println("Error codigo"+e.getStatusCode()+e.getContent());
     }
