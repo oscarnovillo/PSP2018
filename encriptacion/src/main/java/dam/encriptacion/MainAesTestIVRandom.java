@@ -5,8 +5,10 @@
  */
 package dam.encriptacion;
 
+import com.google.common.primitives.Bytes;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
+import java.util.Arrays;
 
 import java.util.Base64;
 import java.util.stream.Stream;
@@ -16,7 +18,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import org.bouncycastle.util.Arrays;
+
 
 
 /**
@@ -44,7 +46,7 @@ public class MainAesTestIVRandom {
 
             Cipher cipher = Cipher.getInstance("AES/CTR/noPadding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
-            return Base64.getEncoder().encodeToString(Arrays.concatenate(iv,cipher.doFinal(strToEncrypt.getBytes("UTF-8"))));
+            return Base64.getEncoder().encodeToString(Bytes.concat(iv,cipher.doFinal(strToEncrypt.getBytes("UTF-8"))));
         } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
         }

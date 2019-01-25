@@ -16,11 +16,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -29,7 +27,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import org.apache.commons.codec.binary.Base64;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -42,7 +39,7 @@ public class CifrarRSAFicheros {
         String nombre = "albertoastudillo";
         try {
             // Anadir provider JCE (provider por defecto no soporta RSA)
-            Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
+            //Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
             //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
             Cipher cifrador = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
 

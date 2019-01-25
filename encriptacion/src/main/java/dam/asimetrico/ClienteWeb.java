@@ -6,11 +6,8 @@
 package dam.asimetrico;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.security.KeyFactory;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -50,7 +46,7 @@ public class ClienteWeb {
             String base64Publica = EntityUtils.toString(entity, "UTF-8");
 
             // Anadir provider JCE (provider por defecto no soporta RSA)
-            Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
+            //Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
             //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
             Cipher cifrador = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
 

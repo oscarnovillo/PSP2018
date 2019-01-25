@@ -7,25 +7,14 @@ package dam.asimetrico;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.KeyFactory;
 import java.security.KeyStore;
-import java.security.MessageDigest;
-import java.security.PublicKey;
-import java.security.Security;
 import java.security.Signature;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPrivateKey;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.crypto.Cipher;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -35,7 +24,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -59,7 +47,7 @@ public class ClienteWebCert {
            
             String base64Publica = EntityUtils.toString(entity, "UTF-8");
 
-            Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
+            //Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
             char[] password = "abc".toCharArray();
             ByteArrayInputStream input = new ByteArrayInputStream(Base64.decode(base64Publica));
             KeyStore ksLoad = KeyStore.getInstance("PKCS12", "BC");

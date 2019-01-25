@@ -5,32 +5,18 @@
  */
 package dam.asimetrico;
 
-import static dam.asimetrico.EjemploRSA.mostrarBytes;
-import dam.encriptacion.PasswordHash;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.InvalidKeyException;
 import java.security.KeyFactory;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.Signature;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import org.apache.commons.codec.binary.Base64;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -42,12 +28,12 @@ public class SignTest {
         String nombre = "albertoastudillo";
         try {
             // Anadir provider JCE (provider por defecto no soporta RSA)
-            Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
+           // Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
             //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-            Cipher cifrador = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
+            Cipher cifrador = Cipher.getInstance("RSA/ECB/PKCS1Padding");
 
             // Crear KeyFactory (depende del provider) usado para las transformaciones de claves*/
-            KeyFactory keyFactoryRSA = KeyFactory.getInstance("RSA", "BC"); // Hace uso del provider BC
+            KeyFactory keyFactoryRSA = KeyFactory.getInstance("RSA"); // Hace uso del provider BC
             //*** 4 Recuperar clave PUBLICA del fichero */
             // 4.1 Leer datos binarios x809
             byte[] bufferPub = new byte[5000];
