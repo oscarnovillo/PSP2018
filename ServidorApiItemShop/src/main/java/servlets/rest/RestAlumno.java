@@ -31,7 +31,6 @@ public class RestAlumno {
     // This method is called if TEXT_PLAIN is request
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  @Secure
   public Response sayPlainTextHello() {
       Alumno alumno = new Alumno();
         alumno.setNombre("Juan");
@@ -50,7 +49,6 @@ public class RestAlumno {
   @PUT
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  @Secure
   public Response sayPut(Alumno alumno) {
        
         alumno.setNombre("KIKO");
