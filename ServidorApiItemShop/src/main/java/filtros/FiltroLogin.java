@@ -22,8 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author user
  */
-@WebFilter(filterName = "FiltroLogin", 
-  urlPatterns = {"/secure/*", "/unLogin"})
+
 public class FiltroLogin implements Filter {
 
     private static final boolean debug = true;
