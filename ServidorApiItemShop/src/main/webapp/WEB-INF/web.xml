@@ -27,13 +27,25 @@
     <servlet-name>jersey-serlvet</servlet-name>
     <url-pattern>/jersey/*</url-pattern>
   </servlet-mapping>-->
+  
+  <filter><filter-name>FiltroLogin</filter-name>
+      <filter-class>filtros.FiltroLogin</filter-class>
+      
+  </filter>
+  <filter>
+      <filter-name>FilterJson</filter-name>
+      <filter-class>filtros.FilterJson</filter-class>
+      
+  </filter>
+  
   <filter-mapping>
     <filter-name>FiltroLogin</filter-name>
-    <url-pattern/>
+    <url-pattern>/secure/*</url-pattern>
+    <url-pattern>/unLogin</url-pattern>
   </filter-mapping>
   <filter-mapping>
     <filter-name>FilterJson</filter-name>
-    <url-pattern/>
+    <url-pattern>/rest/*</url-pattern>
   </filter-mapping>
   
   

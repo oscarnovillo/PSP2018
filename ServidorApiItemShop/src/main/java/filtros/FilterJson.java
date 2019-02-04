@@ -32,7 +32,7 @@ import services.APIServicios;
  *
  * @author user
  */
-@WebFilter(filterName = "FilterJson", urlPatterns = {"/rest/*"})
+
 public class FilterJson implements Filter {
     
     private static final boolean debug = true;
