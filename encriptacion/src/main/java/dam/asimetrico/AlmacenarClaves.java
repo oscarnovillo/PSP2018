@@ -38,7 +38,7 @@ public class AlmacenarClaves {
         /**
          * * 1 Volcar clave privada a fichero
          */
-        // 1.1 Codificar clave privada en formato PKS8 (necesario para escribirla a disco)
+        // 1.1 Codificar clave privada en formato PKCS8 (necesario para escribirla a disco)
         PKCS8EncodedKeySpec pkcs8Spec = new PKCS8EncodedKeySpec(clavePrivada.getEncoded());
 
         // 1.2 Escribirla a fichero binario
@@ -64,7 +64,7 @@ public class AlmacenarClaves {
          * * Crear KeyFactory (depende del provider) usado para las
          * transformaciones de claves
          */
-        KeyFactory keyFactoryRSA = KeyFactory.getInstance("RSA"); // Hace uso del provider BC
+        KeyFactory keyFactoryRSA = KeyFactory.getInstance("RSA"); 
 
         PrivateKey clavePrivada2 = keyFactoryRSA.generatePrivate(clavePrivadaSpec);
 
