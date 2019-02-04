@@ -10,10 +10,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
@@ -45,9 +49,32 @@ public class JWT extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, InvalidKeySpecException, NoSuchAlgorithmException {
 
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        //SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.RS256);
+        
+        PKCS8EncodedKeySpec clavePrivadaSpec = null;
+        byte[] bufferPriv = new byte[5000];
+        InputStream in = request.getServletContext().getResourceAsStream("/WEB-INF/jwt.privada");
+        int chars;
+        try {
+            chars = in.read(bufferPriv, 0, 5000);
+            in.close();
+
+            byte[] bufferPriv2 = new byte[chars];
+            System.arraycopy(bufferPriv, 0, bufferPriv2, 0, chars);
+
+            // 2.2 Recuperar clave privada desde datos codificados en formato PKCS8
+            clavePrivadaSpec = new PKCS8EncodedKeySpec(bufferPriv2);
+
+        } catch (IOException ex) {
+            Logger.getLogger(JWT.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        PrivateKey clavePrivada2;
+        KeyFactory keyFactoryRSA = null;
+         keyFactoryRSA = KeyFactory.getInstance("RSA");
+        clavePrivada2 = keyFactoryRSA.generatePrivate(clavePrivadaSpec);
         String jws = Jwts.builder()
                 .setIssuer("Stormpath")
                 .setSubject("msilverman")
@@ -57,10 +84,10 @@ public class JWT extends HttpServlet {
                 .setIssuedAt(Date.from(Instant.ofEpochSecond(1466796822L)))
                 // Sat Jun 24 2116 15:33:42 GMT-0400 (EDT)
                 .setExpiration(Date.from(Instant.ofEpochSecond(4622470422L)))
-                .signWith(key,SignatureAlgorithm.HS256
+                .signWith(clavePrivada2, SignatureAlgorithm.RS256
                 )
                 .compact();
-        request.getSession().setAttribute("key", key);
+        request.getSession().setAttribute("key", clavePrivada2);
         response.setHeader("JWT", jws);
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -89,7 +116,13 @@ public class JWT extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (InvalidKeySpecException ex) {
+            Logger.getLogger(JWT.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(JWT.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -103,7 +136,13 @@ public class JWT extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (InvalidKeySpecException ex) {
+            Logger.getLogger(JWT.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(JWT.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

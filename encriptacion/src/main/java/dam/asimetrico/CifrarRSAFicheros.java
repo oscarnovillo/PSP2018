@@ -41,10 +41,10 @@ public class CifrarRSAFicheros {
             // Anadir provider JCE (provider por defecto no soporta RSA)
             //Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
             //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-            Cipher cifrador = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
+            Cipher cifrador = Cipher.getInstance("RSA");
 
             // Crear KeyFactory (depende del provider) usado para las transformaciones de claves*/
-            KeyFactory keyFactoryRSA = KeyFactory.getInstance("RSA", "BC"); // Hace uso del provider BC
+            KeyFactory keyFactoryRSA = KeyFactory.getInstance("RSA"); // Hace uso del provider BC
             //*** 4 Recuperar clave PUBLICA del fichero */
             // 4.1 Leer datos binarios x809
             byte[] bufferPub = new byte[5000];
@@ -125,8 +125,6 @@ public class CifrarRSAFicheros {
         } catch (IllegalBlockSizeException ex) {
             Logger.getLogger(CifrarRSAFicheros.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BadPaddingException ex) {
-            Logger.getLogger(CifrarRSAFicheros.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchProviderException ex) {
             Logger.getLogger(CifrarRSAFicheros.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

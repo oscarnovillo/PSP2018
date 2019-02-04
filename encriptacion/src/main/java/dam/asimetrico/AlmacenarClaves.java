@@ -18,7 +18,7 @@ public class AlmacenarClaves {
 
     public static void main(String[] args) throws Exception {
 
-        String nombre = "albertoastudillo";
+        String nombre = "jwt";
 
         System.out.println("Crea los ficheros " + nombre + ".secreta, "
                 + nombre + ".publica, " + nombre + ".privada");
@@ -30,7 +30,7 @@ public class AlmacenarClaves {
          * * Crear claves RSA 1024 bits
          */
         KeyPairGenerator generadorRSA = KeyPairGenerator.getInstance("RSA"); // Hace uso del provider BC
-        generadorRSA.initialize(1024);
+        generadorRSA.initialize(2048);
         KeyPair clavesRSA = generadorRSA.generateKeyPair();
         PrivateKey clavePrivada = clavesRSA.getPrivate();
         PublicKey clavePublica = clavesRSA.getPublic();

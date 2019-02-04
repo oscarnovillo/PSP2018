@@ -30,7 +30,7 @@ public class SignTest {
             // Anadir provider JCE (provider por defecto no soporta RSA)
            // Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
             //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-            Cipher cifrador = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            Cipher cifrador = Cipher.getInstance("RSA/ECB/NoPadding");
 
             // Crear KeyFactory (depende del provider) usado para las transformaciones de claves*/
             KeyFactory keyFactoryRSA = KeyFactory.getInstance("RSA"); // Hace uso del provider BC

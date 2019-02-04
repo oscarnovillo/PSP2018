@@ -5,6 +5,7 @@
  */
 package dam.asimetrico;
 
+import dam.encriptacion.PasswordHash;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -37,7 +38,6 @@ import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 
-
 import sun.security.tools.keytool.CertAndKeyGen;
 import sun.security.x509.X500Name;
 
@@ -58,8 +58,7 @@ public class Cert {
             // prepare the validity of the certificate
             long validSecs = (long) 365 * 24 * 60 * 60; // valid for one year
             // add the certificate information, currently only valid for one year.
-            
-            
+
             X509Certificate cert = certGen.getSelfCertificate(
                     // enter your details according to your application
                     new X500Name("CN=Pedro Salazar,O=My Organisation,L=My City,C=DE"), validSecs);
@@ -83,10 +82,10 @@ public class Cert {
             PublicKey clavePublica = null;
 
             KeyStore ks = KeyStore.getInstance("PKCS12");
-            char[] password = "abc".toCharArray();
+            char[] password = PasswordHash.createHash("abc").toCharArray();
             ks.load(null, null);
             ks.setCertificateEntry("publica", cert);
-            ks.setKeyEntry("privada", pk, null, new Certificate[]{cert});
+            ks.setKeyEntry("privada", pk, password, new Certificate[]{cert});
             FileOutputStream fos = new FileOutputStream("keystore.pfx");
             ks.store(fos, password);
             fos.close();
@@ -100,11 +99,10 @@ public class Cert {
             PrivateKeyEntry privateKeyEntry = (PrivateKeyEntry) ksLoad.getEntry("privada", pt);
             RSAPrivateKey keyLoad = (RSAPrivateKey) privateKeyEntry.getPrivateKey();
 
-            System.out.println(cert.getIssuerX500Principal());
-            System.out.println(cert.getSubjectX500Principal());
+            System.out.println(certLoad.getIssuerX500Principal());
+            System.out.println(certLoad.getSubjectX500Principal());
             //certLoad.verify(clavePublica);
-            
-            
+
             dn = certLoad.getSubjectX500Principal().getName();
             ldapDN = new LdapName(dn);
             for (Rdn rdn : ldapDN.getRdns()) {
@@ -115,7 +113,7 @@ public class Cert {
 
             clavesRSA = new KeyPair(certLoad.getPublicKey(), keyLoad);
 
-            Cipher cifrador = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            Cipher cifrador = Cipher.getInstance("RSA");
             cifrador.init(Cipher.ENCRYPT_MODE, clavesRSA.getPrivate());
             cifrador.doFinal("hola".getBytes());
 
@@ -123,7 +121,7 @@ public class Cert {
 
             sign.initSign(clavesRSA.getPrivate());
 
-            MessageDigest hash = MessageDigest.getInstance("SHA512");
+            MessageDigest hash = MessageDigest.getInstance("SHA-512");
 
             sign.update(hash.digest("hola".getBytes()));
             byte[] firma = sign.sign();
@@ -132,20 +130,17 @@ public class Cert {
             sign.update(hash.digest("hola".getBytes()));
             System.out.println(sign.verify(firma));
 
-            
-                        try{
-    CertificateFactory cf = CertificateFactory.getInstance("X.509");
-    Certificate cert2 = cf.generateCertificate(new ByteArrayInputStream(certLoad.getEncoded()));
-    
-    System.out.println(cert2);
-}catch(Exception ex){
-    ex.printStackTrace();
-}
-            
-            
-            KeyStore ksMX = KeyStore.getInstance("WINDOWS-MY", "SunMSCAPI");
-            ksLoad.load(null, null);
-            
+            try {
+                CertificateFactory cf = CertificateFactory.getInstance("X.509");
+                Certificate cert2 = cf.generateCertificate(new ByteArrayInputStream(certLoad.getEncoded()));
+
+                System.out.println(cert2);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+           
+
         } catch (Exception ex) {
             Logger.getLogger(Cert.class.getName()).log(Level.SEVERE, null, ex);
         }

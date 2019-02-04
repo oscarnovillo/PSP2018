@@ -19,7 +19,7 @@ public class EjemploRSA  {
 
       // PASO 1: Crear e inicializar el par de claves RSA DE 512 bits
       KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA"); // Hace uso del provider BC
-      keyGen.initialize(2048);  // tamano clave 512 bits
+      keyGen.initialize(512);  // tamano clave 512 bits
       KeyPair clavesRSA = keyGen.generateKeyPair();
       PrivateKey clavePrivada = clavesRSA.getPrivate();
       PublicKey clavePublica = clavesRSA.getPublic();

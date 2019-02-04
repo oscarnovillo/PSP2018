@@ -50,11 +50,11 @@ public class ClienteWebCert {
             //Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
             char[] password = "abc".toCharArray();
             ByteArrayInputStream input = new ByteArrayInputStream(Base64.decode(base64Publica));
-            KeyStore ksLoad = KeyStore.getInstance("PKCS12", "BC");
+            KeyStore ksLoad = KeyStore.getInstance("PKCS12");
             ksLoad.load(input, password);
 
             X509Certificate certLoad = (X509Certificate) ksLoad.getCertificate("publica");
-            KeyStore.PasswordProtection pt = new KeyStore.PasswordProtection(password);
+            KeyStore.PasswordProtection pt = new KeyStore.PasswordProtection(null);
             KeyStore.PrivateKeyEntry privateKeyEntry = 
                     (KeyStore.PrivateKeyEntry) ksLoad.getEntry("privada", pt);
             RSAPrivateKey keyLoad = (RSAPrivateKey) privateKeyEntry.getPrivateKey();

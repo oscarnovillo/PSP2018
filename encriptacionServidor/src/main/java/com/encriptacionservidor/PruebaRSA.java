@@ -17,6 +17,7 @@ import java.security.PrivateKey;
 import java.security.Security;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.Cipher;
@@ -26,9 +27,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.codec.binary.Base64;
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 
 /**
  *
@@ -66,7 +66,7 @@ public class PruebaRSA extends HttpServlet {
                     //d.readFully(bufferPub, 0, 162);
                     //in.read(bufferPub, 0, 5000);
                     in.close();
-                    byte[] bufferCode64 = Base64.encodeBase64(bufferPub2);
+                    byte[] bufferCode64 = Base64.getEncoder().encode(bufferPub2);
                     response.getOutputStream().write(bufferCode64);
                 } catch (IOException ex) {
                     Logger.getLogger(PruebaRSA.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,17 +75,15 @@ public class PruebaRSA extends HttpServlet {
                 break;
             case "CIFRADO":
                 // Anadir provider JCE (provider por defecto no soporta RSA)
-                Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
+                //Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
                 //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
                 Cipher cifrador = null;
                 KeyFactory keyFactoryRSA = null; // Hace uso del provider BC
                 try {
-                    cifrador = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
+                    cifrador = Cipher.getInstance("RSA/ECB/NoPadding");
 
-                    keyFactoryRSA = KeyFactory.getInstance("RSA", "BC");
+                    keyFactoryRSA = KeyFactory.getInstance("RSA");
                 } catch (NoSuchAlgorithmException ex) {
-                    Logger.getLogger(PruebaRSA.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NoSuchProviderException ex) {
                     Logger.getLogger(PruebaRSA.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NoSuchPaddingException ex) {
                     Logger.getLogger(PruebaRSA.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,7 +120,7 @@ public class PruebaRSA extends HttpServlet {
 
                     System.out.println("3b. Cifrar con clave privada");
                     byte[] bufferPlano2 = cifrador.doFinal(mensaje.getBytes("UTF-8"));
-                    response.getOutputStream().write(Base64.encodeBase64(bufferPlano2));
+                    response.getOutputStream().write(Base64.getEncoder().encode(bufferPlano2));
 
                 } catch (Exception ex) {
                     Logger.getLogger(PruebaRSA.class.getName()).log(Level.SEVERE, null, ex);

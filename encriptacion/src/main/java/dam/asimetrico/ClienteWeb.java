@@ -48,10 +48,10 @@ public class ClienteWeb {
             // Anadir provider JCE (provider por defecto no soporta RSA)
             //Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
             //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-            Cipher cifrador = Cipher.getInstance("RSA/ECB/PKCS1Padding", "BC");
+            Cipher cifrador = Cipher.getInstance("RSA/ECB/NoPadding");
 
             // Crear KeyFactory (depende del provider) usado para las transformaciones de claves*/
-            KeyFactory keyFactoryRSA = KeyFactory.getInstance("RSA", "BC"); // Hace uso del provider BC
+            KeyFactory keyFactoryRSA = KeyFactory.getInstance("RSA"); // Hace uso del provider BC
 
             // 4.2 Recuperar clave publica desde datos codificados en formato X509
             X509EncodedKeySpec clavePublicaSpec = new X509EncodedKeySpec(Base64.decode(base64Publica));

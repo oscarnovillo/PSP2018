@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import sun.security.tools.keytool.CertAndKeyGen;
 import sun.security.x509.CertificateIssuerName;
 import sun.security.x509.X500Name;
@@ -72,7 +72,7 @@ public class PruebaPFX extends HttpServlet {
             case "NUEVO":
                 try {
                     //mandar clave publica.
-                    Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
+                    //Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
                     CertAndKeyGen certGen = new CertAndKeyGen("RSA", "SHA256WithRSA", null);
                     // generate it with 2048 bits
                     certGen.generate(2048);
@@ -101,12 +101,12 @@ public class PruebaPFX extends HttpServlet {
 
                     PrivateKey clavePrivadaServidor;
                     // Anadir provider JCE (provider por defecto no soporta RSA)
-                    Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
+                   // Security.addProvider(new BouncyCastleProvider());  // Cargar el provider BC
                     //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
                     KeyFactory keyFactoryRSA = null; // Hace uso del provider BC
 
-                    keyFactoryRSA = KeyFactory.getInstance("RSA", "BC");
+                    keyFactoryRSA = KeyFactory.getInstance("RSA");
 
                     clavePrivadaServidor = keyFactoryRSA.generatePrivate(clavePrivadaSpec);
 
@@ -124,7 +124,7 @@ public class PruebaPFX extends HttpServlet {
 
                     PrivateKey clavePrivadaCliente = certGen.getPrivateKey();
 
-                    KeyStore ks = KeyStore.getInstance("PKCS12", "BC");
+                    KeyStore ks = KeyStore.getInstance("PKCS12");
                     ks.load(null, null);
                     ks.setCertificateEntry("publica", certificadoCliente);
                     ks.setKeyEntry("privada", clavePrivadaCliente, null,
@@ -154,7 +154,7 @@ public class PruebaPFX extends HttpServlet {
                     //cargar clave public de servidor
                     KeyFactory keyFactoryRSA = null; // Hace uso del provider BC
 
-                    keyFactoryRSA = KeyFactory.getInstance("RSA", "BC");
+                    keyFactoryRSA = KeyFactory.getInstance("RSA");
                     byte[] bufferPub = new byte[5000];
                     InputStream in = request.getServletContext().getResourceAsStream("/WEB-INF/dam1024.publica");
                     int charsPub;
