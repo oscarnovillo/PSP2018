@@ -88,10 +88,13 @@ public class AlmacenarClaves {
          * * 4 Recuperar clave PUBLICA del fichero
          */
         // 4.1 Leer datos binarios x809
-        byte[] bufferPub = new byte[162];
-        in = new FileInputStream(nombre + ".publica");
-        in.read(bufferPub, 0, 162);
+        byte[] bufferPub = new byte[5000];
+         in = new FileInputStream(nombre + ".publica");
+         chars = in.read(bufferPub, 0, 5000);
         in.close();
+
+        byte[] bufferPub2 = new byte[chars];
+        System.arraycopy(bufferPub, 0, bufferPub2, 0, chars);
 
         // 4.2 Recuperar clave publica desde datos codificados en formato X509
         X509EncodedKeySpec clavePublicaSpec = new X509EncodedKeySpec(bufferPub);
