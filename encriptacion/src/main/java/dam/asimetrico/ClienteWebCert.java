@@ -62,6 +62,7 @@ public class ClienteWebCert {
  
             System.out.println(certLoad.getIssuerX500Principal());
 
+            
             //descifrar mensaje
             httpPost = new HttpPost("http://localhost:8080/encriptacionServidor/pfx");
             nvps = new ArrayList<NameValuePair>();

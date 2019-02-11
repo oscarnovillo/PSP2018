@@ -112,7 +112,7 @@ public class PruebaPFX extends HttpServlet {
 
                     X509Certificate cert = certGen.getSelfCertificate(
                             // enter your details according to your application
-                            new X500Name("CN=TestingLogin,O=My Organisation,L=My City,C=DE"), validSecs);
+                            new X500Name("CN=12,O=My Organisation,L=My City,C=DE"), validSecs);
 
                     byte[] inCertBytes = cert.getTBSCertificate();
                     X509CertInfo info = new X509CertInfo(inCertBytes);
