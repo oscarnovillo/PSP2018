@@ -61,6 +61,8 @@ public class FilterJson implements Filter {
             });
             request.setAttribute("alumno", a);
         }
+        //((HttpServletRequest)request).getMethod()
+        
         
     }
     
