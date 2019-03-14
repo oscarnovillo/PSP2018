@@ -6,7 +6,6 @@
 package model;
 
 import com.google.api.client.util.Key;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -58,6 +57,11 @@ public class Alumno {
   
     public Alumno() {
     }
+
+  @Override
+  public String toString() {
+    return "Alumno{" + "id=" + id + ", nombre=" + nombre + ", fecha_nacimiento=" + fecha_nacimiento + ", mayor_edad=" + mayor_edad + '}';
+  }
 
    
     

@@ -27,7 +27,7 @@
     <servlet-name>jersey-serlvet</servlet-name>
     <url-pattern>/jersey/*</url-pattern>
   </servlet-mapping>-->
-  
+<!--  
   <filter><filter-name>FiltroLogin</filter-name>
       <filter-class>filtros.FiltroLogin</filter-class>
       
@@ -48,5 +48,5 @@
     <url-pattern>/rest/*</url-pattern>
   </filter-mapping>
   
-  
+  -->
 </web-app>

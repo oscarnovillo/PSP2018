@@ -48,6 +48,7 @@ public class AlumnoRecuperacion extends HttpServlet {
     
     Alumno alumno = new Alumno();
     alumno.setNombre("KIKO");
+    alumno.setId(alumnoFiltro.getId());
     alumno.setFecha_nacimiento(LocalDateTime.now());
     
     

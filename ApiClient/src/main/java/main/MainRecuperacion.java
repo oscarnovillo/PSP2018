@@ -30,56 +30,55 @@ import model.Alumno;
  * @author oscar
  */
 public class MainRecuperacion {
-  
-  
+
   public static void main(String[] args) throws IOException {
 //    GoogleHttpConsumerFootball foot = new GoogleHttpConsumerFootball();
 //    foot.processRequest();
 //    GoogleHttpConsumingApi api = new GoogleHttpConsumingApi();
 //    api.processRequest();
 
-        HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-        JsonFactory JSON_FACTORY = new JacksonFactory();
+    HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    JsonFactory JSON_FACTORY = new JacksonFactory();
 
-        HttpRequestFactory requestFactory
-                = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
-                    @Override
-                    public void initialize(HttpRequest request) {
-                        request.setParser(new JsonObjectParser(JSON_FACTORY));
-                    }
-                });
-
-        GenericUrl url
-                = new GenericUrl("http://localhost:8080/ServidorApiItemShop/rest/alumnoRecuperacion");
-
-        Alumno alumno = new Alumno();
-        alumno.setId(10);
-        ObjectMapper m = new ObjectMapper();
-         m.registerModule(new JavaTimeModule());
-         
-        url.set("alumno", m.writeValueAsString(alumno));
-        url.set("id", "10");
-
-        HttpRequest requestGoogle
-                // la diferencia put, delete y get es este metodo
-                = requestFactory.buildGetRequest(url);
-        requestGoogle.getHeaders().set("API_KEY", "KK");
-        HttpResponse response = null;
-        try {
-            response = requestGoogle.execute();
-            String s = response.parseAsString();
-            ObjectMapper obj = new ObjectMapper();
-            obj.registerModule(new JavaTimeModule());
-            Alumno a2 = obj.readValue(s, new TypeReference<Alumno>() {
+    HttpRequestFactory requestFactory
+            = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
+              @Override
+              public void initialize(HttpRequest request) {
+                request.setParser(new JsonObjectParser(JSON_FACTORY));
+              }
             });
+    GenericUrl url
+            = new GenericUrl(
+                    "http://localhost:8084/ServidorApiItemShop/rest/alumnoRecuperacion");
 
-            System.out.println(a2.getFecha_nacimiento());
 
-            
-        } catch (HttpResponseException e) {
-            System.out.println("Error codigo" + e.getStatusCode() + e.getContent());
-        }
+    Alumno alumno = new Alumno();
+    alumno.setId(10);
+    ObjectMapper m = new ObjectMapper();
+    m.registerModule(new JavaTimeModule());
 
+    url.set("alumno", m.writeValueAsString(alumno));
+    url.set("id", "10");
+
+     HttpRequest requestGoogle
+            // la diferencia put, delete y get es este metodo
+            = requestFactory.buildGetRequest(url);
+    
+    HttpResponse response = null;
+    try {
+      response = requestGoogle.execute();
+      String s = response.parseAsString();
+      ObjectMapper obj = new ObjectMapper();
+      obj.registerModule(new JavaTimeModule());
+      Alumno a2 = obj.readValue(s, new TypeReference<Alumno>() {
+      });
+
+      System.out.println(a2);
+
+    } catch (HttpResponseException e) {
+      System.out.println("Error codigo" + e.getStatusCode() + e.getContent());
     }
+
+  }
 
 }
