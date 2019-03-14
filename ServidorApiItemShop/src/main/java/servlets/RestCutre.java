@@ -49,6 +49,13 @@ public class RestCutre extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
+        
+        String alumnoJson = request.getParameter("alumno");
+        ObjectMapper obj = new ObjectMapper();
+            obj.registerModule(new JavaTimeModule());
+            Alumno a2 = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
+            });
+        
         List<Alumno> alumnos = new ArrayList<>();
         Alumno alumno = new Alumno();
         alumno.setNombre("Juan");
