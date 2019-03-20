@@ -27,6 +27,8 @@ import model.Alumno;
 @WebServlet(name = "AlumnoRecuperacion", urlPatterns = {"/rest/alumnoRecuperacion"})
 public class AlumnoRecuperacion extends HttpServlet {
 
+  public static ArrayList<Alumno> alumnos = new ArrayList<>();
+
   /**
    * Handles the HTTP <code>GET</code> method.
    *
@@ -41,21 +43,27 @@ public class AlumnoRecuperacion extends HttpServlet {
     String alumnoJson = request.getParameter("alumno");
     ObjectMapper obj = new ObjectMapper();
     obj.registerModule(new JavaTimeModule());
-    Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
-    });
+    if (alumnoJson != null) {
 
-    // ir a servicios a hacer la query
-    
-    Alumno alumno = new Alumno();
-    alumno.setNombre("KIKO");
-    alumno.setId(alumnoFiltro.getId());
-    alumno.setFecha_nacimiento(LocalDateTime.now());
-    
-    
-    //obj.writeValue(response.getOutputStream(), alumno);
-    
-    response.getWriter().
-            println(obj.writeValueAsString(alumno));
+      Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
+      });
+      //obj.writeValue(response.getOutputStream(), alumno);
+      if (alumnos.indexOf(alumnoFiltro) != -1) {
+        response.getWriter().
+                println(obj.writeValueAsString(
+                        alumnos.get(
+                                alumnos.indexOf(alumnoFiltro))));
+      } else {
+        response.setStatus(404);
+        response.getWriter().
+                println("alumno no existe");
+      }
+    } else {
+      response.getWriter().
+              println(obj.writeValueAsString(
+                      alumnos));
+    }
+
   }
 
   /**
@@ -69,17 +77,53 @@ public class AlumnoRecuperacion extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
+String alumnoJson = request.getParameter("alumno");
+    ObjectMapper obj = new ObjectMapper();
+    obj.registerModule(new JavaTimeModule());
+    Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
+    });
+    alumnos.add(alumnoFiltro);
+
+    response.getWriter().
+            println("OK");
+  }
+
+  @Override
+  protected void doPut(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    String alumnoJson = request.getParameter("alumno");
+    ObjectMapper obj = new ObjectMapper();
+    obj.registerModule(new JavaTimeModule());
+    Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
+    });
+
+    alumnos.add(alumnoFiltro);
+
+    response.getWriter().
+            println("OK");
 
   }
 
-  /**
-   * Returns a short description of the servlet.
-   *
-   * @return a String containing servlet description
-   */
   @Override
-  public String getServletInfo() {
-    return "Short description";
+  protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+          throws ServletException, IOException {
+    String alumnoJson = request.getParameter("alumno");
+    ObjectMapper obj = new ObjectMapper();
+    obj.registerModule(new JavaTimeModule());
+    Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
+    });
+
+    boolean borrado = alumnos.remove(alumnoFiltro);
+
+    if (borrado) {
+      response.getWriter().
+              println("OK");
+    } else {
+      response.setStatus(404);
+        response.getWriter().
+                println("alumno no existe");
+    }
+
   }
 
 }
