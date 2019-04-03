@@ -77,53 +77,72 @@ public class AlumnoRecuperacion extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-String alumnoJson = request.getParameter("alumno");
-    ObjectMapper obj = new ObjectMapper();
-    obj.registerModule(new JavaTimeModule());
-    Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
-    });
-    alumnos.add(alumnoFiltro);
 
-    response.getWriter().
-            println("OK");
+    if (null != request.getSession().getAttribute("tipo")) {
+      String alumnoJson = request.getParameter("alumno");
+      ObjectMapper obj = new ObjectMapper();
+      obj.registerModule(new JavaTimeModule());
+      Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
+      });
+      alumnos.add(alumnoFiltro);
+
+      response.getWriter().
+              println("OK");
+    } else {
+      response.setStatus(403);
+      response.getWriter().println("a donde ibas");
+
+    }
   }
 
   @Override
   protected void doPut(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    String alumnoJson = request.getParameter("alumno");
-    ObjectMapper obj = new ObjectMapper();
-    obj.registerModule(new JavaTimeModule());
-    Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
-    });
+    if ("ADMIN".equals(request.getSession().getAttribute("tipo"))) {
+      
+      String alumnoJson = request.getParameter("alumno");
+      ObjectMapper obj = new ObjectMapper();
+      obj.registerModule(new JavaTimeModule());
+      Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
+      });
 
-    alumnos.add(alumnoFiltro);
+      alumnos.add(alumnoFiltro);
 
-    response.getWriter().
-            println("OK");
+      response.getWriter().
+              println("OK");
+    } else {
+      response.setStatus(403);
+      response.getWriter().println("a donde ibas");
 
+    }
   }
 
   @Override
   protected void doDelete(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    String alumnoJson = request.getParameter("alumno");
-    ObjectMapper obj = new ObjectMapper();
-    obj.registerModule(new JavaTimeModule());
-    Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
-    });
+    if ("ADMIN".equals(request.getSession().getAttribute("tipo"))) {
+      String alumnoJson = request.getParameter("alumno");
 
-    boolean borrado = alumnos.remove(alumnoFiltro);
+      ObjectMapper obj = new ObjectMapper();
+      obj.registerModule(new JavaTimeModule());
+      Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
+      });
 
-    if (borrado) {
-      response.getWriter().
-              println("OK");
-    } else {
-      response.setStatus(404);
+      boolean borrado = alumnos.remove(alumnoFiltro);
+
+      if (borrado) {
+        response.getWriter().
+                println("OK");
+      } else {
+        response.setStatus(404);
         response.getWriter().
                 println("alumno no existe");
-    }
+      }
+    } else {
+      response.setStatus(403);
+      response.getWriter().println("a donde ibas");
 
+    }
   }
 
 }

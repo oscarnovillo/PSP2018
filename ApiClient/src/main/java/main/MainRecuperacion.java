@@ -23,7 +23,9 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.GenericData;
+import config.ConfigurationYaml;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.List;
 import model.Alumno;
@@ -36,18 +38,60 @@ public class MainRecuperacion {
 
   public static void main(String[] args) throws Exception {
 
-
-    put(10);
-    put(12);
-    put(13);
-    put(18);
+String cookie = login();
+    put(10,"");
+    put(12,"");
+    put(13,cookie);
+    put(18,cookie);
     get(13);
     getAll();
-    delete(18);
+    delete(18,cookie);
     getAll();
 
   }
 
+    public static String login() throws JsonProcessingException, IOException {
+    HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    JsonFactory JSON_FACTORY = new JacksonFactory();
+
+    HttpRequestFactory requestFactory
+            = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
+              @Override
+              public void initialize(HttpRequest request) {
+                request.setParser(new JsonObjectParser(JSON_FACTORY));
+              }
+            });
+    GenericUrl url
+            = new GenericUrl(
+                    "http://localhost:8084/ServidorApiItemShop/LoginUsuarioRecuperacion");
+
+    
+    url.set("tipo", "ADMIN");
+    String cookie = "";
+    HttpRequest requestGoogle
+            // la diferencia put, delete y get es este metodo
+            = requestFactory.buildGetRequest(url);
+
+    HttpResponse response = null;
+    try {
+      response = requestGoogle.execute();
+     
+      response.parseAsString();
+      
+      
+       if (((List<String>) response.getHeaders().get("set-cookie")) != null) {
+        
+        cookie = ((List<String>) response.getHeaders().get("set-cookie")).get(0);
+       
+        
+      }
+    } catch (HttpResponseException e) {
+      System.out.println("Error codigo" + e.getStatusCode() + e.getContent());
+    }
+    return cookie;
+  }
+  
+  
   public static void get(int id) throws JsonProcessingException, IOException {
     HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     JsonFactory JSON_FACTORY = new JacksonFactory();
@@ -130,7 +174,7 @@ public class MainRecuperacion {
 
   
   
-  public static void put(int id) throws JsonProcessingException, IOException {
+  public static void put(int id,String cookie) throws JsonProcessingException, IOException {
     HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     JsonFactory JSON_FACTORY = new JacksonFactory();
 
@@ -162,6 +206,7 @@ public class MainRecuperacion {
 
     HttpResponse response = null;
     try {
+      requestGoogle.getHeaders().setCookie(cookie);
       response = requestGoogle.execute();
       String s = response.parseAsString();
       System.out.println(s);
@@ -172,7 +217,7 @@ public class MainRecuperacion {
   }
 
   
-   public static void delete(int id) throws JsonProcessingException, IOException {
+   public static void delete(int id,String cookie) throws JsonProcessingException, IOException {
     HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     JsonFactory JSON_FACTORY = new JacksonFactory();
 
@@ -202,6 +247,7 @@ public class MainRecuperacion {
 
     HttpResponse response = null;
     try {
+      requestGoogle.getHeaders().setCookie(cookie);
       response = requestGoogle.execute();
       String s = response.parseAsString();
       System.out.println(s);
@@ -213,7 +259,7 @@ public class MainRecuperacion {
   
    
    
-   public static void post(int id) throws JsonProcessingException, IOException {
+   public static void post(int id,String cookie) throws JsonProcessingException, IOException {
     HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     JsonFactory JSON_FACTORY = new JacksonFactory();
 
