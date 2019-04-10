@@ -5,17 +5,10 @@
  */
 package filtros;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Scanner;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -25,14 +18,14 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Alumno;
-import services.APIServicios;
 
 /**
  *
- * @author user
+ * @author oscar
  */
-public class FilterJson implements Filter {
+@WebFilter(filterName = "FiltrosRecuperacionLogin",
+        urlPatterns = {"/recuperacion/*"})
+public class FiltrosRecuperacionLogin implements Filter {
 
   private static final boolean debug = true;
 
@@ -41,34 +34,13 @@ public class FilterJson implements Filter {
   // configured. 
   private FilterConfig filterConfig = null;
 
-  public FilterJson() {
+  public FiltrosRecuperacionLogin() {
   }
-
 
   private void doBeforeProcessing(ServletRequest request, ServletResponse response)
           throws IOException, ServletException {
     if (debug) {
-      log("FilterJson:DoBeforeProcessing");
-    }
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModule(new JavaTimeModule());
-    ((HttpServletRequest) request).getMethod();
-
-    String alumno = request.getParameter("alumno");
-    if (alumno != null) {
-      Alumno a = mapper.readValue(alumno,
-              new TypeReference<Alumno>() {
-      });
-      request.setAttribute("alumno", a);
-    }
-    
-
-    if (((HttpServletRequest) request).getMethod().equals("PUT")) {
-      Scanner scanner = new Scanner(request.getInputStream(), "UTF-8");
-      String body = scanner.hasNext() ? scanner.useDelimiter("\\A").next() : null;
-      if (null != body) {
-
-      }
+      log("FiltrosRecuperacionLogin:DoBeforeProcessing");
     }
 
   }
@@ -76,32 +48,9 @@ public class FilterJson implements Filter {
   private void doAfterProcessing(ServletRequest request, ServletResponse response)
           throws IOException, ServletException {
     if (debug) {
-      log("FilterJson:DoAfterProcessing");
+      log("FiltrosRecuperacionLogin:DoAfterProcessing");
     }
 
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModule(new JavaTimeModule());
-    Object json = request.getAttribute("json");
-    if (json != null) {
-      mapper.writeValue(response.getOutputStream(), json);
-    }
-    // Write code here to process the request and/or response after
-    // the rest of the filter chain is invoked.
-    // For example, a logging filter might log the attributes on the
-    // request object after the request has been processed. 
-    /*
-	for (Enumeration en = request.getAttributeNames(); en.hasMoreElements(); ) {
-	    String name = (String)en.nextElement();
-	    Object value = request.getAttribute(name);
-	    log("attribute: " + name + "=" + value.toString());
-
-	}
-     */
-    // For example, a filter might append something to the response.
-    /*
-	PrintWriter respOut = new PrintWriter(response.getWriter());
-	respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
-     */
   }
 
   /**
@@ -118,25 +67,22 @@ public class FilterJson implements Filter {
           throws IOException, ServletException {
 
     if (debug) {
-      log("FilterJson:doFilter()");
+      log("FiltrosRecuperacionLogin:doFilter()");
     }
 
     doBeforeProcessing(request, response);
 
     Throwable problem = null;
     try {
-      String API_KEY = ((HttpServletRequest) request).getHeader("API_KEY");
-      APIServicios api = new APIServicios();
-      int empresa = api.checkAPI(API_KEY);
-      if (empresa > 0) {
-        request.setAttribute("empresa", empresa);
+      ((HttpServletRequest) request).getMethod().equals("GET");
+      if (((HttpServletRequest) request).getSession().getAttribute("tipo") == null) {
         chain.doFilter(request, response);
       } else {
-
-        // llamada a api rest incorrecta
-        ((HttpServletResponse) response).setStatus(403);
-        ((HttpServletResponse) response).getWriter().print("mi mensaje error");
+        // request.getRequestDispatcher("/error").forward(request, response);
+        response.getWriter().println("DONDE IVBAS");
+        ((HttpServletResponse)response).setStatus(403);
       }
+
     } catch (Throwable t) {
       // If an exception is thrown somewhere down the filter chain,
       // we still want to execute our after processing, and then
@@ -149,7 +95,8 @@ public class FilterJson implements Filter {
 
     // If there was a problem, we want to rethrow it if it is
     // a known type, otherwise log it.
-    if (problem != null) {
+    if (problem
+            != null) {
       if (problem instanceof ServletException) {
         throw (ServletException) problem;
       }
@@ -189,7 +136,7 @@ public class FilterJson implements Filter {
     this.filterConfig = filterConfig;
     if (filterConfig != null) {
       if (debug) {
-        log("FilterJson:Initializing filter");
+        log("FiltrosRecuperacionLogin:Initializing filter");
       }
     }
   }
@@ -200,9 +147,9 @@ public class FilterJson implements Filter {
   @Override
   public String toString() {
     if (filterConfig == null) {
-      return ("FilterJson()");
+      return ("FiltrosRecuperacionLogin()");
     }
-    StringBuffer sb = new StringBuffer("FilterJson(");
+    StringBuffer sb = new StringBuffer("FiltrosRecuperacionLogin(");
     sb.append(filterConfig);
     sb.append(")");
     return (sb.toString());

@@ -40,29 +40,41 @@ public class AlumnoRecuperacion extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    String alumnoJson = request.getParameter("alumno");
-    ObjectMapper obj = new ObjectMapper();
-    obj.registerModule(new JavaTimeModule());
-    if (alumnoJson != null) {
+    
+    Alumno alumnoFiltro =  (Alumno)request.getAttribute("alumno");
+//    String alumnoJson = request.getParameter("alumno");
+ //   ObjectMapper obj = new ObjectMapper();
+ //  obj.registerModule(new JavaTimeModule());
+    if (alumnoFiltro != null) {
 
-      Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
-      });
+//      Alumno alumnoFiltro = obj.readValue(alumnoJson, new TypeReference<Alumno>() {
+//      });
+      
+   
+      
       //obj.writeValue(response.getOutputStream(), alumno);
       if (alumnos.indexOf(alumnoFiltro) != -1) {
-        response.getWriter().
-                println(obj.writeValueAsString(
-                        alumnos.get(
-                                alumnos.indexOf(alumnoFiltro))));
+         request.setAttribute("json", alumnos.get(
+                                alumnos.indexOf(alumnoFiltro)));
+                
+//        response.getWriter().
+//                println(obj.writeValueAsString(
+//                        alumnos.get(
+//                                alumnos.indexOf(alumnoFiltro))));
       } else {
         response.setStatus(404);
         response.getWriter().
                 println("alumno no existe");
       }
     } else {
-      response.getWriter().
-              println(obj.writeValueAsString(
-                      alumnos));
+      request.setAttribute("json", alumnos);
+//      response.getWriter().
+//              println(obj.writeValueAsString(
+//                      alumnos));
     }
+    
+    
+    
 
   }
 
