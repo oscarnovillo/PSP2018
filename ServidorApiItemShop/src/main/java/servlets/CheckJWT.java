@@ -79,8 +79,7 @@ public class CheckJWT extends HttpServlet {
                 
                 // we can safely trust the JWT
             } catch (JwtException ex) {       // (4)
-                
-                // we *cannot* use the JWT as intended by its creator
+               response.setStatus(403);
             }
             
             
@@ -94,7 +93,9 @@ public class CheckJWT extends HttpServlet {
                 out.println("</head>");
                 out.println("<body>");
                 out.println("<h1>Servlet CheckJWT at " + jws.getBody().get("name", String.class) + "</h1>");
-                out.println("</body>");
+                out.println("<h1>Servlet CheckJWT at " + jws.getBody().get("scope", String.class) + "</h1>");
+              out.println("<h1>Servlet CheckJWT at " + jws.getBody().get("admin", Boolean.class) + "</h1>");
+              out.println("</body>");
                 out.println("</html>");
             }
         } catch (NoSuchAlgorithmException ex) {
