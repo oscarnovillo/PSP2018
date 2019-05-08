@@ -5,6 +5,8 @@
  */
 package dam.encriptacion;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 import javax.crypto.Cipher;
@@ -25,16 +27,23 @@ public class MainAesTest {
 
     public static String encrypt(String strToEncrypt, String secret) {
         try {
-            byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+            byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0};
             IvParameterSpec ivspec = new IvParameterSpec(iv);
 
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(secret.toCharArray(), sSalt.getBytes(), 65536, 128);
+            KeySpec spec = new PBEKeySpec(secret.toCharArray(), sSalt.getBytes(), 1,128);
             SecretKey tmp = factory.generateSecret(spec);
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
 
+             MessageDigest digest = 
+                MessageDigest.getInstance("SHA-128");
+        digest.update(secret.getBytes("UTF-8"));
+         SecretKeySpec key = new SecretKeySpec(
+                digest.digest(), "AES");
+            
+            
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
+            cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
         } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
@@ -52,8 +61,14 @@ public class MainAesTest {
             SecretKey tmp = factory.generateSecret(spec);
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
 
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
+              MessageDigest digest = 
+                MessageDigest.getInstance("SHA-128");
+        digest.update(secret.getBytes("UTF-8"));
+         SecretKeySpec key = new SecretKeySpec(
+                digest.digest(),  "AES");
+            
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key, ivspec);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());
@@ -61,10 +76,12 @@ public class MainAesTest {
         return null;
     }
 
-    public static void main(String[] args) {
-        String originalString = "howtodoinjava.com";
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        String originalString = "howtodoinjava.com seef sdf sdf sdf sd";
 
+        
         String encryptedString = encrypt(originalString, sSecretKey);
+        
         String decryptedString = decrypt(encryptedString, sSecretKey);
 
         System.out.println(originalString);
