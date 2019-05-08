@@ -36,14 +36,14 @@ public class MainAesTest {
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
 
              MessageDigest digest = 
-                MessageDigest.getInstance("SHA-128");
+                MessageDigest.getInstance("SHA-256");
         digest.update(secret.getBytes("UTF-8"));
          SecretKeySpec key = new SecretKeySpec(
                 digest.digest(), "AES");
             
             
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
         } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
@@ -57,18 +57,18 @@ public class MainAesTest {
             IvParameterSpec ivspec = new IvParameterSpec(iv);
 
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(secret.toCharArray(), sSalt.getBytes(), 65536,128);
+            KeySpec spec = new PBEKeySpec(secret.toCharArray(), sSalt.getBytes(), 2,128);
             SecretKey tmp = factory.generateSecret(spec);
             SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
 
               MessageDigest digest = 
-                MessageDigest.getInstance("SHA-128");
+                MessageDigest.getInstance("SHA-256");
         digest.update(secret.getBytes("UTF-8"));
          SecretKeySpec key = new SecretKeySpec(
                 digest.digest(),  "AES");
             
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, key, ivspec);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         } catch (Exception e) {
             System.out.println("Error while decrypting: " + e.toString());
