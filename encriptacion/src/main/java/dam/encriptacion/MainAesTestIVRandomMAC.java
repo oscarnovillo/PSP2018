@@ -29,7 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class MainAesTestIVRandomMAC {
 
     private static String sSecretKey = "boooooooooom!!!!";
-    private static String sSalt = "ssshhhhhhhhhhh!!!!";
+   
 
     public static String encrypt(String strToEncrypt, String secret) {
         try {
