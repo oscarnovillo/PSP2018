@@ -35,7 +35,7 @@ public class ClienteWeb {
         httpclient = HttpClients.createDefault();
         //pedir clave publica
         try {
-            HttpPost httpPost = new HttpPost("http://localhost:8080/encriptacionServidor/rsa");
+            HttpPost httpPost = new HttpPost("http://localhost:8084/encriptacionServidor/rsa");
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 
             nvps.add(new BasicNameValuePair("op", "PUBLICA"));
@@ -59,7 +59,7 @@ public class ClienteWeb {
 
             
             //descifrar mensaje
-            httpPost = new HttpPost("http://localhost:8080/encriptacionServidor/rsa");
+            httpPost = new HttpPost("http://localhost:8084/encriptacionServidor/rsa");
             nvps = new ArrayList<NameValuePair>();
 
             nvps.add(new BasicNameValuePair("op", "CIFRADO"));

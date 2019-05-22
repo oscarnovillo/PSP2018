@@ -18,7 +18,7 @@ public class AlmacenarClaves {
 
     public static void main(String[] args) throws Exception {
 
-        String nombre = "jwt";
+        String nombre = "juancarlos";
 
         System.out.println("Crea los ficheros " + nombre + ".secreta, "
                 + nombre + ".publica, " + nombre + ".privada");

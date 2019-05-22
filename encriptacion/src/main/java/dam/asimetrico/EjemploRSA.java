@@ -45,6 +45,7 @@ public class EjemploRSA  {
       System.out.println("3a. Cifrar con clave publica");
       byte[] bufferCifrado = cifrador.doFinal(bufferPlano);
       System.out.println("TEXTO CIFRADO");
+      
       mostrarBytes(bufferCifrado);
       System.out.println("\n-------------------------------");
       
